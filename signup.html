@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2T1F - 회원가입</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function validateForm() {
+            // 약관 동의 체크 여부 확인
+            var agree1Checked = document.querySelector('input[name="agree1"]').checked;
+            var agree2Checked = document.querySelector('input[name="agree2"]').checked;
+            
+            // 두 약관 모두 동의했는지 확인
+            if (!agree1Checked || !agree2Checked) {
+                alert("회원가입 약관과 개인정보 처리방침에 모두 동의해야 합니다.");
+                return false; // 폼 전송을 중지
+            }
+            
+            // 모든 약관에 동의했을 때 폼 제출
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <main class="signup-container">
+        <div class="signup-box">
+            <a href="index.html" class="logo">2T1F</a>
+            <form action="register.html" onsubmit="return validateForm()">
+                <div class="terms">
+                    <h3>회원가입 약관</h3>
+                    <textarea readonly rows="5">여기에 회원가입 약관 내용이 들어갑니다.</textarea>
+                    <label>
+                        <input type="checkbox" name="agree1"> 회원가입 약관에 동의합니다.
+                    </label>
+                </div>
+                <div class="terms">
+                    <h3>개인정보 처리방침 안내</h3>
+                    <textarea readonly rows="5">여기에 개인정보 처리방침 내용이 들어갑니다.</textarea>
+                    <label>
+                        <input type="checkbox" name="agree2"> 개인정보 처리방침에 동의합니다.
+                    </label>
+                </div>
+                <button type="submit" class="signup-button">다음</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

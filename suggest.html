@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영양제 추천</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">2T1F</a>
+        <nav>
+            <ul>
+                <li><a href="login.html">로그인</a></li>
+                <li><a href="survey.html">설문조사</a></li>
+                <li><a href="#reviews">고객리뷰</a></li>
+                <li><a href="store.html">스토어</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="product-list">
+            <div class="recommended-products">
+                <h2>추천 상품</h2>
+                <div class="product-items">
+                    <?php
+                    // 데이터베이스 연결 설정
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "0122";
+                    $dbname = "2t1f";
+
+                    // 데이터베이스 연결 생성
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    // 연결 확인
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    // final 테이블에서 데이터 가져오기
+                    $sql = "SELECT name, nutrients, price, link FROM final";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            // 이미지 링크를 절대 경로로 변환
+                            $image_link = 'http://localhost/dbdb/' . basename($row['link']);
+                            echo "<div class='product-item'>";
+                            echo "<img src='" . $image_link . "' alt='" . $row['name'] . "'>";
+                            echo "<h3>" . $row['name'] . "</h3>";
+                            echo "<p>가격: " . $row['price'] . "원</p>";
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<p>추천할 영양제가 없습니다.</p>";
+                    }
+
+                    $conn->close();
+                    ?>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

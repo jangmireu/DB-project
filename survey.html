@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설문조사</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function showNextQuestion(currentQuestion) {
+            const nextQuestion = currentQuestion.nextElementSibling;
+            if (nextQuestion && nextQuestion.classList.contains('question')) {
+                currentQuestion.style.display = 'none';
+                nextQuestion.style.display = 'block';
+            } else {
+                submitSurvey();
+            }
+        }
+
+        function submitSurvey() {
+            const formData = new FormData(document.getElementById('surveyForm'));
+            fetch('survey.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);  // 서버에서 반환한 메시지를 알림창으로 표시
+                window.location.href = 'survey_result.html';  // 설문 완료 후 결과 페이지로 이동
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.question').forEach((question, index) => {
+                if (index !== 0) question.style.display = 'none';
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">2T1F</a>
+        <nav>
+            <ul>
+                <li><a href="login.html">로그아웃</a></li>
+                <li><a href="survey.html">설문조사</a></li>
+                <li><a href="#reviews">고객리뷰</a></li>
+                <li><a href="store.html">스토어</a></li> <!-- 여기 변경 -->
+            </ul>
+        </nav>
+    </header>
+    <main class="survey-container">
+        <div class="survey-box">
+            <form id="surveyForm">
+                <div class="question">
+                    <label for="name">이름:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="age">나이:</label>
+                    <input type="number" id="age" name="age" required>
+                    <label for="height">키 (cm):</label>
+                    <input type="number" id="height" name="height" required>
+                    <label for="weight">몸무게 (kg):</label>
+                    <input type="number" id="weight" name="weight" required>
+                    <label>성별:</label>
+                    <label><input type="radio" name="gender" value="남자" required> 남자</label>
+                    <label><input type="radio" name="gender" value="여자" required> 여자</label>
+                    <button type="button" onclick="showNextQuestion(this.parentElement)">다음</button>
+                </div>
+                <div class="question">
+                    <p>질문 1: 당신의 식습관은 어떻습니까?</p>
+                    <label><input type="radio" name="q1" value="건강한 식습관"> 건강한 식습관</label>
+                    <label><input type="radio" name="q1" value="불규칙한 식습관"> 불규칙한 식습관</label>
+                    <label><input type="radio" name="q1" value="패스트푸드를 자주 먹음"> 패스트푸드를 자주 먹음</label>
+                    <button type="button" onclick="showNextQuestion(this.parentElement)">다음</button>
+                </div>
+                <div class="question">
+                    <p>질문 2: 일주일에 몇 번 운동을 하십니까?</p>
+                    <label><input type="radio" name="q2" value="전혀 하지 않음"> 전혀 하지 않음</label>
+                    <label><input type="radio" name="q2" value="1-2번"> 1-2번</label>
+                    <label><input type="radio" name="q2" value="3-4번"> 3-4번</label>
+                    <label><input type="radio" name="q2" value="5번 이상"> 5번 이상</label>
+                    <button type="button" onclick="showNextQuestion(this.parentElement)">다음</button>
+                </div>
+                <div class="question">
+                    <p>질문 3: 하루에 몇 시간 앉아 계십니까?</p>
+                    <label><input type="radio" name="q3" value="2시간 이하"> 2시간 이하</label>
+                    <label><input type="radio" name="q3" value="3-5시간"> 3-5시간</label>
+                    <label><input type="radio" name="q3" value="6-8시간"> 6-8시간</label>
+                    <label><input type="radio" name="q3" value="8시간 이상"> 8시간 이상</label>
+                    <button type="button" onclick="showNextQuestion(this.parentElement)">다음</button>
+                </div>
+                <div class="question">
+                    <p>질문 4: 주로 무엇을 마십니까?</p>
+                    <label><input type="radio" name="q4" value="물"> 물</label>
+                    <label><input type="radio" name="q4" value="탄산음료"> 탄산음료</label>
+                    <label><input type="radio" name="q4" value="주스"> 주스</label>
+                    <label><input type="radio" name="q4" value="커피"> 커피</label>
+                    <button type="button" onclick="showNextQuestion(this.parentElement)">다음</button>
+                </div>
+                <div class="question">
+                    <p>질문 5: 하루에 흡연을 얼마나 하십니까?</p>
+                    <label><input type="radio" name="q5" value="반 갑 정도(약 10개비)"> 반 갑 정도(약 10개비)</label>
+                    <label><input type="radio" name="q5" value="한 갑 정도(약 20개비)"> 한 갑 정도(약 20개비)</label>
+                    <label><input type="radio" name="q5" value="그 이상"> 그 이상</label>
+                    <label><input type="radio" name="q5" value="흡연하지않음"> 흡연하지않음</label>
+                    <button type="button" onclick="showNextQuestion(this.parentElement)">다음</button>
+                </div>
+                <div class="question">
+                    <p>질문 6: 스트레스를 얼마나 받으십니까?</p>
+                    <label><input type="radio" name="q6" value="거의 받지 않음"> 거의 받지 않음</label>
+                    <label><input type="radio" name="q6" value="약간 받음"> 약간 받음</label>
+                    <label><input type="radio" name="q6" value="자주 받음"> 자주 받음</label>
+                    <label><input type="radio" name="q6" value="매우 많이 받음"> 매우 많이 받음</label>
+                    <button type="button" onclick="showNextQuestion(this.parentElement)">다음</button>
+                </div>
+                <div class="question">
+                    <p>질문 7: 구매 가능한 가격대는 얼마입니까?</p>
+                    <label><input type="radio" name="q7" value="1만원 이하"> 1만원 이하</label>
+                    <label><input type="radio" name="q7" value="1~3만원"> 1~3만원</label>
+                    <label><input type="radio" name="q7" value="3~5만원"> 3~5만원</label>
+                    <label><input type="radio" name="q7" value="5만원 이상"> 5만원 이상</label>
+                    <button type="button" onclick="submitSurvey()">제출</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

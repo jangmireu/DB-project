@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설문 결과</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('survey_result.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('result').textContent = data.error;
+                    } else {
+                        document.getElementById('name').textContent = data.name;
+                        document.getElementById('age').textContent = data.age;
+                        document.getElementById('gender').textContent = data.gender;
+                        document.getElementById('height').textContent = data.height + ' cm';
+                        document.getElementById('weight').textContent = data.weight + ' kg';
+                        document.getElementById('bmi').textContent = data.bmi;
+                        document.getElementById('bmiStatus').textContent = data.bmiStatus;
+                        document.getElementById('nutrients_needed').textContent = data.nutrients_needed;
+                        
+                        // 영양제 추천 링크 설정
+                        let supplementLink = document.getElementById('supplement_recommendation');
+                        supplementLink.innerHTML = `<a href="suggest.php" target="_blank">영양제 추천 받으러 가기</a>`;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">2T1F</a>
+        <nav>
+            <ul>
+                <li><a href="login.html">로그인</a></li>
+                <li><a href="survey.html">설문조사</a></li>
+                <li><a href="#reviews">고객리뷰</a></li>
+                <li><a href="store.html">스토어</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="result-container">
+        <div class="result-box">
+            <h1>설문 결과</h1>
+            <p><strong>이름:</strong> <span id="name"></span></p>
+            <p><strong>나이:</strong> <span id="age"></span></p>
+            <p><strong>성별:</strong> <span id="gender"></span></p>
+            <p><strong>키:</strong> <span id="height"></span></p>
+            <p><strong>몸무게:</strong> <span id="weight"></span></p>
+            <p><strong>BMI:</strong> <span id="bmi"></span></p>
+            <p><strong>BMI 상태:</strong> <span id="bmiStatus"></span></p>
+            <p><strong>필요한 영양소:</strong> <span id="nutrients_needed"></span></p>
+            <p><strong>추천 영양제:</strong> <span id="supplement_recommendation"></span></p>
+        </div>
+    </main>
+</body>
+</html>
